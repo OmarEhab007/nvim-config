@@ -1,291 +1,612 @@
-# LeerVim: Frontend Neovim Config
+# LeerVim
 
-[![Last commit](https://img.shields.io/github/last-commit/ecosse3/nvim?style=for-the-badge)](https://github.com/ecosse3/nvim/commits/master)
-![Stars](https://img.shields.io/github/stars/ecosse3/nvim?style=for-the-badge)
-![License](https://img.shields.io/github/license/ecosse3/nvim?style=for-the-badge)
-![Neovim Version](https://img.shields.io/badge/For%20Neovim-0.9+-yellowgreen?style=for-the-badge&logo=neovim&logoColor=d8abbb&color=d8abbb)
+LeerVim is a Neovim configuration focused on frontend and full-stack development. It uses
+Lua modules, Lazy.nvim plugin management, Snacks.nvim for the modern picker and explorer
+workflow, strong LSP defaults, Git/GitHub tools, testing, debugging, formatting, linting,
+and AI-assisted coding.
 
-### A non-minimal Neovim config built to work most efficiently with Frontend Development.
+This README is the user guide for the configuration: installation, update workflow,
+important files, installed tools, and the keymaps used to trigger the main workflows.
 
-## Features
+## Requirements
 
-- Configured for TypeScript Development (React.js, Next.js, Vue.js, Angular, Node.js etc.)
-- Great default theme: [Tokyonight](https://github.com/folke/tokyonight.nvim)
-- Lazy loaded via [lazy.nvim](https://github.com/folke/lazy.nvim)
-- Highly performant (90ms load time)
-- Extendable LSP configuration via [mason.nvim](https://github.com/williamboman/mason.nvim)
-- Support for :robot: AI: [ChatGPT](https://openai.com/blog/chatgpt/), [GitHub Copilot](https://github.com/features/copilot), [Codeium](https://codeium.com/) and [Tabnine](https://www.tabnine.com/)
-- Support for [TailwindCSS](https://tailwindcss.com/) with highlighted colors
-- JSON autocompletion for most popular Frontend configs
-- NPM packages autocompletion in _package.json_
-- Internal [Jest](https://github.com/facebook/jest) testing and [Coverage](https://github.com/andythigpen/nvim-coverage) support
-- Debugging with [nvim-dap](https://github.com/mfussenegger/nvim-dap) (works with React.js & React Native)
-- Automatic Treesitter-based folding with imports folded by default
-- Current code context via [nvim-navic](https://github.com/SmiteshP/nvim-navic)
-- Beautiful and functional custom statusline built with [galaxyline.nvim](https://github.com/glepnir/galaxyline.nvim) 
-- Git management with [Lazygit](https://github.com/jesseduffield/lazygit), custom telescope commits view with [git-delta](https://github.com/dandavison/delta), [gitsigns](https://github.com/lewis6991/gitsigns.nvim) & [diffview](https://github.com/sindrets/diffview.nvim), custom git blame
+Install these tools before using the config.
 
-And of course usage of [telescope](https://github.com/nvim-telescope/telescope.nvim), [nvim-tree](https://github.com/kyazdani42/nvim-tree.lua), [barbar](https://github.com/romgrk/barbar.nvim), [cmp](https://github.com/hrsh7th/nvim-cmp), [treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [blankline](https://github.com/lukas-reineke/indent-blankline.nvim) & more!
+| Tool | Why it is used |
+| --- | --- |
+| Neovim 0.10+ | Editor runtime |
+| Git | Plugin installation, project workflow, Git integrations |
+| Node.js and npm | JavaScript/TypeScript language tools and frontend projects |
+| ripgrep (`rg`) | Fast text search used by pickers |
+| fd | Fast file discovery used by pickers |
+| lazygit | Terminal Git UI from inside Neovim |
+| A Nerd Font | Icons in the UI |
+| A C compiler | Required by some Treesitter parsers and native plugins |
 
-## Screenshots
+Optional but recommended:
 
-Dashboard
-
-![Dashboard](./.screenshots/6-alpha.png)
-
-Overview
-
-![Neovim](./.screenshots/5-main.png)
-
-<details>
-<summary>More screenshots</summary>
-
-Some of screenshots can be old
-
-TailwindCSS with nvim-cmp
-
-![TailwindCSS](./.screenshots/5-tailwind.png)
-
-Which Key Menu
-
-![WhichKey](./.screenshots/4-which-key.png)
-
-Lazygit
-
-![Lazygit](./.screenshots/4-lazygit.png)
-
-Telescope
-
-![Telescope](./.screenshots/4-telescope.png)
-
-Git Commits w/ Telescope
-
-![Commits](./.screenshots/4-bcommits.png)
-
-Git Side Blame
-
-![Side Blame](./.screenshots/4-side-blame.png)
-</details>
+| Tool | Why it is useful |
+| --- | --- |
+| GitHub CLI (`gh`) | GitHub PR/issue workflow through Octo.nvim |
+| Docker | Project-specific development environments |
+| `prettier`, `eslint`, `stylua`, `goimports`, etc. | Project formatters and linters used through Conform and nvim-lint |
 
 ## Installation
 
-**Just clone GitHub repo into ~/.config/nvim.**
+Clone the repo into your Neovim config directory.
 
-**Prerequisities**
+```sh
+git clone https://github.com/OmarEhab007/nvim-config ~/.config/nvim
+nvim
+```
 
-- Make sure you have installed the latest version of Neovim v0.9.0+ (nightly is preferred).
-- Have wget, curl, unzip, git, make, pip, python, npm, node, luarocks, fd, ripgrep and cargo installed on your system. You can check if you are missing anything with `:checkhealth` command.
-- Have any nerd font installed. *Fira Code* has been used in screenshots. You can download it from [nerdfonts.com](https://www.nerdfonts.com/font-downloads).
+Lazy.nvim installs plugins automatically on the first start.
 
-**After install configuration:**
+If you already have a Neovim config, back it up first:
 
-1. Selected treesitter Languages are installed by default.
-To check it run `:TSInstallInfo`.
-Make sure to run `:TSInstall <lang>` for specific language you want to install.
-2. LSP servers are enabled by default. You can check installed LSP servers by `:Mason` command.
+```sh
+mv ~/.config/nvim ~/.config/nvim.backup
+git clone https://github.com/OmarEhab007/nvim-config ~/.config/nvim
+```
 
-## Configuration
+## Updating
 
-To change LeerVim related config use the `config/LeerVim.lua` file.
+Update plugins from inside Neovim:
 
-To change vim settings use the `config/options.lua` file.
+| Trigger | Action |
+| --- | --- |
+| `<leader>/i` | Open Lazy.nvim |
+| `<leader>/u` | Update plugins with Lazy.nvim |
 
-To change plugin related settings use the specific `plugins/[name].lua` file. Some of the plugin config can be set up during plugin installation in `config/plugins.lua` file, where you can add new plugins.
+Update the config repo from the terminal:
 
-## Keybindings
+```sh
+cd ~/.config/nvim
+git pull
+```
 
-Currently I have no idea how to write for you my whole workflow of using LeerVim config in React.js projects I am working on,\
-but I can write you the most useful custom key bindings by the frequency I use them.
+If you keep your live config in `~/.config/nvim` and this repository in
+`~/Developer/nvim-config`, use the shell helper:
 
-Space (SPC) is my Leader key.
+```sh
+sync-nvim-config
+```
 
-<details>
-<summary>File Explorer</summary>
+That copies the current live config into the repo, preserves `.git` and `.gitignore`, and
+then shows `git status`.
 
-### File Explorer
+## Project Layout
 
-| Key Bindings | Description                                   |
-|--------------|-----------------------------------------------|
-| <C - e>      | Open File Explorer                            |
-| Backspace    | Back to file explorer (in editor normal mode) |
-| g?           | Open commands menu                            |
-| a            | Create new file/directory                     |
-| x            | Cut                                           |
-| c            | Copy                                          |
-| y            | Copy name                                     |
-| r            | Rename                                        |
-| I            | Toggle git ignore files                       |
+| Path | Purpose |
+| --- | --- |
+| `init.lua` | Main entry point |
+| `lua/config/LeerVim.lua` | Global LeerVim helpers and defaults |
+| `lua/config/options.lua` | Editor options |
+| `lua/config/keymappings.lua` | Global keymaps |
+| `lua/config/autocmds.lua` | Autocommands |
+| `lua/config/lazy.lua` | Lazy.nvim bootstrap and plugin loading |
+| `lua/plugins/` | Plugin specs grouped by feature |
+| `lua/plugins/which-key/setup.lua` | Which-key groups and many feature keymaps |
+| `lazy-lock.json` | Locked plugin versions |
 
-</details>
+## Leader Keys
 
-<details>
-<summary>Searching</summary>
+| Key | Meaning |
+| --- | --- |
+| `<leader>` | Main command prefix |
+| `<localleader>` | Buffer-local or plugin-local command prefix |
+| `<C-x>` | Control + key |
+| `<M-x>` | Alt/Meta + key |
+| `<S-x>` | Shift + key |
 
-### Searching
+Most commands are discoverable with which-key: press `<leader>` and pause.
 
-| Key Bindings | Description         |
-|--------------|---------------------|
-| <C - p>      | Telescope git files |
-| <S - p>      | Telescope live grep |
-| s            | Enables lightspeed  |
-| SPC s d      | Search dotfiles     |
-| SPC s h      | Search file history |
-| SPC s s      | Search history      |
+## Main Plugins And Tools
 
-</details>
+### Core UI
 
-<details>
-<summary>Working with LSP</summary>
+| Plugin/tool | Purpose |
+| --- | --- |
+| `folke/lazy.nvim` | Plugin manager |
+| `folke/snacks.nvim` | Dashboard, explorer, picker, lazygit, notifier, terminal helpers, zen/zoom |
+| `folke/which-key.nvim` | Keymap discovery |
+| `akinsho/bufferline.nvim` | Buffer tabs |
+| `nvim-lualine/lualine.nvim` | Statusline |
+| `folke/noice.nvim` | Command line and message UI |
+| `rcarriga/nvim-notify` | Notifications |
+| `goolord/alpha-nvim` | Opening dashboard |
+| `luukvbaal/statuscol.nvim` | Status column |
+| `kevinhwang91/nvim-ufo` | Folding UI |
 
-### Working with LSP:
+### Navigation And Editing
 
-| Key Bindings           | Description                                       |
-|------------------------|---------------------------------------------------|
-| <C - Space> or SPC c a | Code action                                       |
-| <S - K>                | Show documentation under cursor                   |
-| gd                     | Go to definition                                  |
-| gr                     | Go to references                                  |
-| ]g                     | Go to next diagnostic                             |
-| [g                     | Go to prev diagnostic                             |
-| SPC c f                | Format document (usually ESLint/Prettier)         |
-| SPC c r                | Rename                                            |
-| SPC c q                | Quick fix - when I exactly know if it will fix it |
-| SPC c d                | Local diagnostics list                            |
-| SPC c o                | Organize imports                                  |
+| Plugin/tool | Purpose |
+| --- | --- |
+| `folke/flash.nvim` | Fast jump/search motions |
+| `ThePrimeagen/harpoon` | Mark and jump between important files |
+| `mrjones2014/smart-splits.nvim` | Resize and move between splits |
+| `echasnovski/mini.ai` | Better text objects |
+| `echasnovski/mini.align` | Alignment operator |
+| `numToStr/Comment.nvim` | Comment toggling |
+| `L3MON4D3/LuaSnip` | Snippets |
+| `chrisgrieser/nvim-scissors` | Create and edit snippets |
+| `Wansmer/treesj` | Split/join syntax nodes |
+| `johmsalas/text-case.nvim` | Text case conversion |
+| `andymass/vim-matchup` | Matching pairs and tags |
 
-</details>
+### LSP, Completion, Formatting, Linting
 
-<details>
-<summary>Working with Git</summary>
+| Plugin/tool | Purpose |
+| --- | --- |
+| `neovim/nvim-lspconfig` | Language server setup |
+| `williamboman/mason.nvim` | External tool installer |
+| `hrsh7th/nvim-cmp` | Completion engine |
+| `hrsh7th/cmp-nvim-lsp` | LSP completion source |
+| `stevearc/conform.nvim` | Formatting |
+| `mfussenegger/nvim-lint` | Linting |
+| `folke/trouble.nvim` | Diagnostics and references UI when enabled |
+| `nvim-treesitter/nvim-treesitter` | Syntax tree parsing |
 
-### Working with Git:
+### Git And GitHub
 
-| Key Bindings | Description                                                                                                                              |
-|--------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| SPC g g      | Lazygit - for committing and branch change                                                                                               |
-| SPC g s      | Telescope status - when I want to change/search file I am working on with git changes                                                    |
-| ]c           | Go to next change hunk                                                                                                                   |
-| [c           | Go to prev change hunk                                                                                                                   |
-| SPC g d      | Advanced powerful diff view with many filters for debugging code, checking previous changes etc.                                         |
-| SPC g m      | View hunk diff of a line under cursor                                                                                                    |
-| SPC g h r    | Reset changed hunk under cursor - I like to check quickly what I have changed in that line and then just type 'u' to go back             |
-| SPC g h s    | Stage hunk under cursor - Sometimes it's faster than selecting lines in Lazygit, so I can stage specific lines and then just do a commit |
-| SPC g l c    | Quick check of previous commit in current buffer, <C-s> inside to switch preview                                                         |
-| SPC g w c    | Creates a new worktree. Recommended directory is `../path`                                                                               |
-| SPC g w w    | Switches to a worktree. <C-d> removes worktree.                                                                                          |
+| Plugin/tool | Purpose |
+| --- | --- |
+| `lewis6991/gitsigns.nvim` | Hunk signs and hunk actions |
+| `sindrets/diffview.nvim` | Git diff and file history UI |
+| `akinsho/git-conflict.nvim` | Merge conflict helpers |
+| `ThePrimeagen/git-worktree.nvim` | Worktree management |
+| `pwntester/octo.nvim` | GitHub issues and pull requests |
+| `lazygit` | Terminal Git UI |
 
-</details>
+### Frontend, TypeScript, Markdown
 
-<details>
-<summary>Working with Project</summary>
+| Plugin/tool | Purpose |
+| --- | --- |
+| `pmizio/typescript-tools.nvim` | TypeScript language actions |
+| `dmmulroy/tsc.nvim` | TypeScript compiler diagnostics |
+| `luckasRanarison/tailwind-tools.nvim` | Tailwind CSS tools |
+| `iamcco/markdown-preview.nvim` | Markdown preview |
+| `nvim-neotest/neotest` | Test runner framework |
+| Jest adapter | JavaScript/TypeScript tests |
 
-### Working with Project:
+### Debugging And AI
 
-| Key Bindings | Description                                                                                                                                                                                                                                                                             |
-|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <C - e>      | Toggles nvim-tree file explorer                                                                                                                                                                                                                                                         |
-| SPC p w      | Find word under cursor in project - very useful to find where component is used. Just use binding and type '<'. There is a lot of alternatives like LSP references but I like it with telescope and to not find only references but whole text under cursor.                            |
-| SPC p f      | Find file under cursor in project - it finds files in project which contains text under cursor. Useful when you name directories by component name in React and wants to go quickly to file. 'gd' is better but in some projects without TS or with mixed JS/TS it cannot work properly |
-| SPC p t      | Finds TODOs/NOTES in project                                                                                                                                                                                                                                                            |
-| SPC p l      | Switch between projects                                                                                                                                                                                                                                                                 |
-| SPC p s      | Save session to load it later from Dashboard                                                                                                                                                                                                                                            |
+| Plugin/tool | Purpose |
+| --- | --- |
+| `mfussenegger/nvim-dap` | Debug Adapter Protocol |
+| `rcarriga/nvim-dap-ui` | Debug UI |
+| `zbirenbaum/copilot.lua` | GitHub Copilot completion |
+| `CopilotC-Nvim/CopilotChat.nvim` | Copilot chat actions |
+| `olimorris/codecompanion.nvim` | CodeCompanion chat and inline actions |
 
-</details>
+## Daily Workflow
 
-<details>
-<summary>Commenting</summary>
+### Open A Project
 
-### Commenting
+Start Neovim from the project root:
 
-| Key Bindings | Description                |
-|--------------|----------------------------|
-| gcc          | Create/remove comment      |
-| gc (visual)  | Create/remove comment      |
-| gcO          | Create comment line before |
-| gco          | Create comment line after  |
+```sh
+cd path/to/project
+nvim
+```
 
-</details>
+Use the dashboard, picker, or explorer to enter the project:
 
-<details>
-<summary>Table Mode / Alignment</summary>
+| Trigger | Action |
+| --- | --- |
+| `<leader>//` | Open dashboard |
+| `<C-e>` | Open Snacks explorer |
+| `<C-p>` | Find files intelligently |
+| `<S-p>` | Search text in project |
+| `<leader>pl` | Open project list |
 
-### Table Mode / Alignment
+Hidden files and gitignored files are enabled in the Snacks picker and explorer by default.
 
-| Key Bindings | Description                                                                       |
-|--------------|-----------------------------------------------------------------------------------|
-| ga (visual)  | Aligns selection based on separator (comma, semi-colon, colon etc.)               |
-| SPC t m      | Enables Table Mode. Do it in markdown file with some table and you will see magic |
-| SPC t i C    | (Only when Table Mode Enabled) Insert column before                               |
-| SPC t i c    | (Only when Table Mode Enabled) Insert column after                                |
-| SPC t d c    | (Only when Table Mode Enabled) Delete column                                      |
-| SPC t d r    | (Only when Table Mode Enabled) Delete row                                         |
-| SPC t s      | (Only when Table Mode Enabled) Sort table alphabetically                          |
+### Edit Code
 
-</details>
+| Trigger | Action |
+| --- | --- |
+| `<C-s>` | Save from normal or insert mode |
+| `<leader>f` | Format current file or visual selection |
+| `<leader>l` | Lint current file |
+| `<leader>ca` | Code action |
+| `<leader>cr` | Rename symbol |
+| `<leader>cf` | LSP format current buffer or visual range |
+| `<leader>ct` | Toggle format-on-save |
 
-<details>
-<summary>Other</summary>
+### Search And Navigate
 
-### Other VERY useful bindings
+| Trigger | Action |
+| --- | --- |
+| `<C-p>` | Smart file picker |
+| `<S-p>` | Grep project |
+| `<leader>pw` | Grep word under cursor or visual selection |
+| `<leader>sf` | Find files |
+| `<leader>sb` | Pick open buffers |
+| `<leader>sh` | Recent files |
+| `<leader>sH` | Command history |
+| `<leader>ss` | Search history |
+| `<leader>sq` | Quickfix picker |
+| `<leader>sc` | Colorscheme picker |
+| `<leader>sd` | Dotfiles picker |
 
-| Key Bindings | Description                                                                                                                                                                               |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <S - q>      | Smartly closes current buffer without breaking UI                                                                                                                                         |
-| <C - a>      | It is not only increases number, but switches between true/false/const/let/function/arrow function/increment dates etc.                                                                   |
-| <C - n>      | Finds next occurrence (like *) of word and puts multi-cursor there. Then you can go to Insert mode, Append, Change or Delete. [Read more](https://github.com/mg979/vim-visual-multi/wiki) |
-| <C - o>      | Jumps to previous cursor in jumplist. I use it very often.                                                                                                                                |
-| v <ENTER>    | Smartly selects next subjects of current treesitter context                                                                                                                               |
-| s            | Standalone jump to any word with `folke/flash.nvim`                                                                                                                                       |
-| ciq          | Change inside ANY quotes (`` or '' or "" etc.) with `mini.ai`                                                                                                                             |
-| cib          | Change inside ANY brackets ({} or [] or () etc.) with `mini.ai`                                                                                                                           |
-| za           | Toggle folds. By LSP and nvim-ufo they are automatically added to supported files in smart way.                                                                                           |
-| zM           | Close all folds                                                                                                                                                                           |
-| zR           | Open all folds                                                                                                                                                                            |
-| zr           | Open all folds except imports/comments                                                                                                                                                    |
-| gJ           | Smartly joins lines based on treesitter                                                                                                                                                   |
-| gS           | Smartly splits lines based on treesitter. I do if VERY often when I want to put import element to new lines (e.g. import { A, B, C, D, E } from ...)                                      |
-| < F12 >      | Opens/closes terminal                                                                                                                                                                     |
-| ~            | Switch function arguments smartly                                                                                                                                                         |
+### Git
 
-</details>
+| Trigger | Action |
+| --- | --- |
+| `<leader>gg` | Open Lazygit |
+| `<leader>gla` | Lazygit log for current working directory |
+| `<leader>glc` | Lazygit history for current file |
+| `<leader>ga` | Git add current file |
+| `<leader>gA` | Git add all files |
+| `<leader>gb` | Toggle Git blame window |
+| `<leader>gd` | Open Diffview file history |
+| `<leader>gS` | Open Diffview status |
+| `<leader>gi` | List GitHub issues |
+| `<leader>gp` | List GitHub pull requests |
 
-Check out the which-key menu and [keymappings.lua](https://github.com/ecosse3/nvim/blob/master/lua/config/keymappings.lua) for most used maps. 
+## Keymap Reference
 
+### General Editing
 
-## Performance
+| Mode | Trigger | Action |
+| --- | --- | --- |
+| Normal | `<C-s>` | Save file |
+| Insert | `<C-s>` | Save file and return to normal mode |
+| Normal | `<CR>` | Clear search highlights |
+| Normal | `H` | Move to first non-blank character |
+| Normal | `gx` | Open URL under cursor in browser |
+| Normal | `<M-=>` | Increase GUI font size |
+| Normal | `<M-->` | Decrease GUI font size |
+| Visual | `J` | Move selected lines down |
+| Visual | `K` | Move selected lines up |
+| Visual | `<` | Indent left and keep selection |
+| Visual | `>` | Indent right and keep selection |
+| Visual | `` ` `` | Lowercase selection |
+| Visual | `<M-`>` | Uppercase selection |
+| Normal/Visual | `x` | Delete without yanking |
+| Normal/Visual | `X` | Delete without yanking |
+| Visual | `p` | Paste without yanking replaced text |
 
-Measured on M1.
+### Windows And Splits
 
-LeerVim started in 91.13ms 
+| Trigger | Action |
+| --- | --- |
+| `<leader>v` | Split right |
+| `<leader>V` | Split below |
+| `<leader>=` | Increase vertical split width |
+| `<leader>-` | Decrease vertical split width |
+| `<C-h>` | Move to left split |
+| `<C-j>` | Move to lower split |
+| `<C-k>` | Move to upper split |
+| `<C-l>` | Move to right split |
+| `<C-\>` | Move to previous split |
+| `<M-h>` | Resize split left |
+| `<M-j>` | Resize split down |
+| `<M-k>` | Resize split up |
+| `<M-l>` | Resize split right |
+| `<leader><leader>h` | Swap buffer left |
+| `<leader><leader>j` | Swap buffer down |
+| `<leader><leader>k` | Swap buffer up |
+| `<leader><leader>l` | Swap buffer right |
 
-## Future Todo 
+### Buffers
 
-| Description                                                          | Progress                                                           |
-|----------------------------------------------------------------------|--------------------------------------------------------------------|
-| Support more LSPs (not only frontend? - already possible via Mason)  | ![50%](https://progress-bar.dev/50/?title=progres)                 |
-| Better configuration of additional LSPs (already possible via Mason) | ![50%](https://progress-bar.dev/50/?title=planned)                 |
-| Project Logo                                                         | ![Planned](https://progress-bar.dev/0/?title=planned&color=b8860b) |
-| Auto resize for more consistent UI behavior                          | ![Planned](https://progress-bar.dev/0/?title=planned&color=b8860b) |
-| Reload in-time support                                               | ![Planned](https://progress-bar.dev/0/?title=planned&color=b8860b) |
+| Trigger | Action |
+| --- | --- |
+| `<Tab>` | Next buffer |
+| `gn` | Next buffer |
+| `<S-Tab>` | Previous buffer |
+| `gp` | Previous buffer |
+| `<S-q>` | Close current buffer |
+| `<leader>bc` | Close all buffers except current |
+| `<leader>bf` | Go to first buffer |
+| `<leader>bb` | Move current buffer backward |
+| `<leader>bn` | Move current buffer forward |
+| `<leader>bp` | Pick buffer |
+| `<leader>bP` | Pin or unpin buffer |
+| `<leader>bl` | Close buffers to the left |
+| `<leader>br` | Close buffers to the right |
+| `<leader>bsd` | Sort buffers by directory |
+| `<leader>bse` | Sort buffers by extension |
+| `<leader>bsr` | Sort buffers by relative directory |
 
+### Explorer And Pickers
 
-<details>
-<summary>Done</summary>
+| Trigger | Action |
+| --- | --- |
+| `<C-e>` | Open Snacks explorer |
+| `<C-p>` | Smart file picker |
+| `<S-p>` | Project grep |
+| `<leader>sf` | File picker |
+| `<leader>sb` | Buffer picker |
+| `<leader>sh` | Recent files picker |
+| `<leader>pw` | Grep word or selection |
+| `<leader>pl` | Projects picker |
+| `<leader>cd` | Diagnostics picker |
+| `<leader>gf` | Git files picker |
+| `<leader>gs` | Git status picker |
+| `<leader>glA` | Git log picker |
+| `<leader>glC` | Git file commits picker |
+| Explorer: `H` | Toggle hidden files |
+| Explorer: `I` | Toggle ignored files |
+| Explorer: `<C-]>` | Change explorer root to selected directory |
 
-| Description                                     | Progress                                                       |
-|-------------------------------------------------|----------------------------------------------------------------|
-| lazy.nvim instead of packer                     | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Better support for null-ls and local formatting | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Better support to project word refactor         | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Support for nvim-dap debugger for React         | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Support ESLint & Prettier in Native LSP         | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Replace coc-explorer with nvim-tree.lua         | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Replace coc.nvim with Native LSP                | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Change fzf.nvim to telescope.nvim               | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Update statusline to support LSP diagnostics    | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Rewrite most config to lua                      | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Support TailwindCSS with colors                 | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Provide current screenshots                     | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
-| Create shell installer for Linux & MacOS        | ![100%](https://progress-bar.dev/100/?title=done&color=555555) |
+### Quickfix
 
-</details>
+| Trigger | Action |
+| --- | --- |
+| `<leader>,` | Previous quickfix item |
+| `<leader>.` | Next quickfix item |
+| `<leader>q` | Toggle quickfix list |
+| `<leader>sq` | Open quickfix picker |
+
+### LSP And Diagnostics
+
+| Trigger | Action |
+| --- | --- |
+| `gd` | Go to definition |
+| `gr` | Find references |
+| `gy` | Go to type definition |
+| `K` | Hover documentation, or peek folded lines |
+| `L` | Signature help |
+| `<C-Space>` | Code action |
+| `<leader>ca` | Code action |
+| `<leader>cr` | Rename symbol |
+| `<leader>cf` | Format buffer or visual range |
+| `<leader>cl` | Show line diagnostics |
+| `gl` | Show line diagnostics |
+| `]g` | Next diagnostic |
+| `[g` | Previous diagnostic |
+| `<leader>cR` | Restart LSP |
+| `<leader>ct` | Toggle format-on-save |
+
+### Git Hunks
+
+| Trigger | Action |
+| --- | --- |
+| `]c` | Next Git hunk |
+| `[c` | Previous Git hunk |
+| `<leader>ghs` | Stage hunk |
+| `<leader>ghr` | Reset hunk |
+| `<leader>ghS` | Stage buffer |
+| `<leader>ghu` | Undo stage hunk |
+| `<leader>ghR` | Reset buffer |
+| `<leader>ghp` | Preview hunk |
+| `<leader>gm` | Blame current line |
+| `<leader>ghd` | Diff current hunk |
+| `<leader>ght` | Toggle deleted lines |
+| `ih` | Select hunk text object |
+
+### Git Conflicts And Worktrees
+
+| Trigger | Action |
+| --- | --- |
+| `<leader>gcn` | Next conflict |
+| `<leader>gcp` | Previous conflict |
+| `<leader>gcc` | Choose current/ours |
+| `<leader>gci` | Choose incoming/theirs |
+| `<leader>gcb` | Choose both |
+| `<leader>gww` | List worktrees |
+| `<leader>gwc` | Create worktree |
+
+### Harpoon
+
+| Trigger | Action |
+| --- | --- |
+| `<leader>H` | Add current file to Harpoon |
+| `<leader>h` | Open Harpoon menu |
+| `<leader>1` | Open Harpoon item 1 |
+| `<leader>2` | Open Harpoon item 2 |
+| `<leader>3` | Open Harpoon item 3 |
+| `<leader>4` | Open Harpoon item 4 |
+| `<leader>[` | Previous Harpoon item |
+| `<leader>]` | Next Harpoon item |
+
+### Motions And Text Objects
+
+| Trigger | Action |
+| --- | --- |
+| `s` | Flash jump |
+| Operator `r` | Remote Flash |
+| `gcc` | Toggle line comment |
+| `gc` | Toggle comment operator or visual selection |
+| `gco` | Add comment below |
+| `gcO` | Add comment above |
+| `ga` | Align with mini.align |
+| `gu...` | Convert text case with text-case.nvim |
+| `guo...` | Text-case operator |
+| `zR` | Open all folds |
+| `zM` | Close all folds |
+| `za` | Toggle fold under cursor |
+
+Mini.ai also adds enhanced text objects such as quotes, brackets, functions, arguments,
+and surrounding syntax-aware selections.
+
+### Refactoring
+
+| Mode | Trigger | Action |
+| --- | --- | --- |
+| Visual | `<leader>re` | Extract function |
+| Visual | `<leader>rf` | Extract function to file |
+| Visual | `<leader>rv` | Extract variable |
+| Visual/Normal | `<leader>ri` | Inline variable |
+| Normal | `<leader>rI` | Inline function |
+| Normal | `<leader>rb` | Extract block |
+| Normal | `<leader>rf` | Extract block to file |
+
+### TypeScript And Tailwind
+
+| Trigger | Action |
+| --- | --- |
+| `<leader>ce` | Show TypeScript workspace errors |
+| `<leader>ci` | Add missing imports |
+| `<leader>co` | Organize imports |
+| `<leader>cs` | Sort imports |
+| `<leader>cu` | Remove unused declarations |
+| `<leader>cR` | Rename file and update imports |
+| `<leader>cv` | Show Tailwind CSS values |
+| `<leader>cS` | Toggle Tailwind class sorting on save |
+
+### NPM Package Buffers
+
+These mappings apply in package management buffers.
+
+| Trigger | Action |
+| --- | --- |
+| `<leader>nc` | Change package version |
+| `<leader>nd` | Delete package |
+| `<leader>nh` | Hide package info |
+| `<leader>ni` | Install new package |
+| `<leader>nr` | Reinstall dependencies |
+| `<leader>ns` | Show package info |
+| `<leader>nu` | Update package |
+
+### Tests
+
+| Trigger | Action |
+| --- | --- |
+| `<leader>jf` | Run current test file |
+| `<leader>jj` | Run nearest test |
+| `<leader>jl` | Run last test |
+| `<leader>ji` | Toggle test summary/info |
+| `<leader>jo` | Open test output |
+| `<leader>js` | Stop running test |
+
+### Debugging
+
+| Trigger | Action |
+| --- | --- |
+| `<leader>da` | Continue debugging |
+| `<leader>dd` | Continue debugging |
+| `<leader>db` | Toggle breakpoint |
+| `<leader>dB` | Set conditional breakpoint |
+| `<leader>di` | Step into |
+| `<leader>do` | Step out |
+| `<leader>dO` | Step over |
+| `<leader>dt` | Terminate debug session |
+| `<leader>du` | Open DAP UI |
+| `<leader>dc` | Close DAP UI |
+| `<leader>dh` | Evaluate expression |
+| `<leader>dw` | Open watches |
+| `<leader>ds` | Open scopes |
+| `<leader>dr` | Open REPL |
+
+### Snippets
+
+| Mode | Trigger | Action |
+| --- | --- | --- |
+| Normal | `<leader>asa` | Add new snippet |
+| Visual | `<leader>asa` | Add snippet from selection |
+| Normal | `<leader>ase` | Edit snippet |
+
+### Markdown
+
+| Trigger | Action |
+| --- | --- |
+| `<leader>am` | Toggle Markdown preview |
+
+### AI
+
+| Trigger | Action |
+| --- | --- |
+| `<leader>ccl` | CodeCompanion inline action |
+| `<leader>ccc` | AI chat action |
+| `<leader>cce` | Explain code with Copilot Chat |
+| `<leader>cct` | Generate tests with Copilot Chat |
+| `<leader>ccf` | Fix diagnostic with Copilot Chat |
+| Insert `<C-w>` | Accept Copilot word |
+| Insert `<C-l>` | Accept Copilot line |
+| Insert `<C-j>` | Next Copilot suggestion |
+| Insert `<C-k>` | Previous Copilot suggestion |
+
+Note: `<leader>ccc` is currently configured by both CodeCompanion and Copilot Chat. The
+effective command depends on plugin load order.
+
+### LeerVim And UI Actions
+
+| Trigger | Action |
+| --- | --- |
+| `<leader>//` | Open dashboard |
+| `<leader>/c` | Open LeerVim config |
+| `<leader>/i` | Open Lazy.nvim |
+| `<leader>/u` | Update plugins |
+| `<leader>an` | Toggle absolute line numbers |
+| `<leader>ar` | Toggle relative line numbers |
+| `<leader>ac` | Create a comment box |
+| `<leader>z` | Toggle Zen mode |
+| `<leader>Z` | Toggle Zoom mode |
+
+## Common Commands
+
+| Command | Purpose |
+| --- | --- |
+| `:Lazy` | Open plugin manager |
+| `:Lazy update` | Update plugins |
+| `:Mason` | Install and manage external language tools |
+| `:checkhealth` | Diagnose Neovim/plugin/provider issues |
+| `:ConformInfo` | Inspect formatter setup |
+| `:LspInfo` | Inspect active language servers |
+| `:Telescope` | Open Telescope commands if needed |
+
+## Customization
+
+Start with these files:
+
+| File | What to change |
+| --- | --- |
+| `lua/config/options.lua` | Editor behavior |
+| `lua/config/keymappings.lua` | Global mappings |
+| `lua/plugins/which-key/setup.lua` | Leader groups and feature mappings |
+| `lua/plugins/snacks.lua` | Dashboard, picker, explorer, lazygit, zen |
+| `lua/plugins/lsp.lua` | Language server behavior |
+| `lua/plugins/formatting.lua` | Formatters |
+| `lua/plugins/linting.lua` | Linters |
+| `lua/plugins/languages/` | Language-specific tooling |
+
+After changing plugins, restart Neovim and run:
+
+```vim
+:Lazy sync
+```
+
+After changing language tools, run:
+
+```vim
+:Mason
+```
+
+## Troubleshooting
+
+| Problem | Fix |
+| --- | --- |
+| Plugins do not install | Run `:Lazy sync`, then restart Neovim |
+| LSP does not attach | Run `:LspInfo` and `:Mason`; install the missing server |
+| Formatter does not run | Run `:ConformInfo` and check project config files |
+| Search is empty or slow | Install `ripgrep` and `fd` |
+| Icons look broken | Use a Nerd Font in the terminal |
+| GitHub PRs/issues do not load | Install and authenticate `gh` |
+| Hidden or ignored files are missing | In Snacks explorer press `H` for hidden files or `I` for ignored files |
+
+## Maintenance Checklist
+
+Use this when changing the configuration.
+
+1. Edit the config in `~/.config/nvim`.
+2. Start Neovim and check for startup errors.
+3. Run `:Lazy sync` if plugins changed.
+4. Run `sync-nvim-config` to copy the live config into the repo.
+5. Review `git diff`.
+6. Commit and push the repo.
+
+Headless startup check:
+
+```sh
+nvim --headless '+qa'
+```
+
+Repo config startup check:
+
+```sh
+XDG_CONFIG_HOME=~/Developer NVIM_APPNAME=nvim-config nvim --headless '+qa'
+```
