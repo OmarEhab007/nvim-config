@@ -1,7 +1,7 @@
 local options = {
   clipboard      = "unnamed,unnamedplus",   --- Copy-paste between vim and everything else
   cmdheight      = 0,                       --- Give more space for displaying messages
-  completeopt    = "menu,menuone,noselect", --- Better autocompletion
+  completeopt    = "menu,menuone,preview", --- Better autocompletion
   cursorline     = true,                    --- Highlight of current line
   emoji          = false,                   --- Fix emoji display
   expandtab      = true,                    --- Use spaces instead of tabs
@@ -40,7 +40,7 @@ local options = {
   backup         = false,                   --- Recommended by coc
   --- Concealed text is completely hidden unless it has a custom replacement character defined (needed for dynamically showing tailwind classes)
   conceallevel   = 2,
-  concealcursor  = "",                      --- Set to an empty string to expand tailwind class when on cursorline 
+  concealcursor  = "",                      --- Set to an empty string to expand tailwind class when on cursorline
   encoding       = "utf-8",                 --- The encoding displayed
   errorbells     = false,                   --- Disables sound effect for errors
   fileencoding   = "utf-8",                 --- The encoding written to file
@@ -64,6 +64,8 @@ vim.opt.fillchars:append('fold: ');
 vim.opt.fillchars:append('foldopen: ');
 vim.opt.fillchars:append('foldsep: ');
 vim.opt.fillchars:append('foldclose:');
+vim.opt.fillchars:append('vert:▕');
+vim.opt.fillchars:append('vertleft:▕');
 
 for k, v in pairs(options) do
   vim.opt[k] = v
@@ -71,4 +73,22 @@ end
 
 for k, v in pairs(globals) do
   vim.g[k] = v
+end
+
+if vim.g.neovide then
+  vim.opt.title = true
+  vim.opt.guifont = EcoVim.ui.font
+  vim.g.neovide_scale_factor = 1.1
+  vim.g.neovide_refresh_rate = 144
+  vim.g.neovide_underline_stroke_scale = 0.5
+  vim.g.neovide_input_use_logo = 1
+  vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
+  vim.g.neovide_window_blurred = true
+  vim.g.neovide_floating_blur_amount_x = 2.0
+  vim.g.neovide_floating_blur_amount_y = 2.0
+  vim.g.neovide_transparency = 0.95
+
+  vim.keymap.set({ 'n', 'v' }, '<D-c>', '"+y')  -- Copy
+  vim.keymap.set({ 'n', 'v' }, '<D-v>', '"*p')  -- Paste normal/visual mode
+  vim.keymap.set({ 'c', 'i' }, '<D-v>', '<C-R>+') -- Paste command/insert mode
 end

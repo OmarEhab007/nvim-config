@@ -1,97 +1,110 @@
-require 'nvim-treesitter.configs'.setup {
-  ensure_installed = {
-    "tsx",
-    "typescript",
-    "javascript",
-    "html",
-    "css",
-    "vue",
-    "astro",
-    "svelte",
-    "gitcommit",
-    "graphql",
-    "json",
-    "json5",
-    "lua",
-    "markdown",
-    "prisma",
-    "vim",
-  },                              -- one of "all", or a list of languages
-  sync_install = false,           -- install languages synchronously (only applied to `ensure_installed`)
-  ignore_install = { "haskell" }, -- list of parsers to ignore installing
-  highlight = {
-    enable = true,
-    -- disable = { "c", "rust" },  -- list of language that will be disabled
-    -- additional_vim_regex_highlighting = false,
-  },
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    branch = "master",
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      -- Install parsers
+      require("nvim-treesitter.install").prefer_git = true
 
-  incremental_selection = {
-    enable = false,
-    keymaps = {
-      init_selection    = "<leader>gnn",
-      node_incremental  = "<leader>gnr",
-      scope_incremental = "<leader>gne",
-      node_decremental  = "<leader>gnt",
+      -- Ensure parsers are installed
+      local ensure_installed = {
+        "tsx",
+        "typescript",
+        "javascript",
+        "html",
+        "css",
+        "vue",
+        "astro",
+        "svelte",
+        "gitcommit",
+        "graphql",
+        "json",
+        "json5",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "prisma",
+        "vim",
+        "vimdoc",
+        "query",
+      }
+
+      -- Auto-install missing parsers when entering buffer
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          local parsers = require("nvim-treesitter.parsers")
+          local lang = parsers.ft_to_lang(vim.bo.filetype)
+          if lang and vim.tbl_contains(ensure_installed, lang) then
+            local is_installed = #vim.api.nvim_get_runtime_file("parser/" .. lang .. ".so", false) > 0
+            if not is_installed then
+              vim.cmd("TSInstall " .. lang)
+            end
+          end
+        end,
+      })
+
+      -- Enable treesitter-based highlighting
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
+      })
+
+      -- Enable treesitter-based indentation (use Neovim's built-in)
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          -- Try the new API first, fall back gracefully
+          local ok = pcall(function()
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          end)
+          if not ok then
+            -- Fallback: just use default indentation
+          end
+        end,
+      })
+    end,
+    dependencies = {
+      "hiphish/rainbow-delimiters.nvim",
+      "JoosepAlviste/nvim-ts-context-commentstring",
     },
   },
 
-  indent = {
-    enable = true
+  -- Textobjects - DISABLED: incompatible with new nvim-treesitter API
+  -- TODO: Re-enable when nvim-treesitter-textobjects is updated
+  -- See: https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    enabled = false,
   },
 
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
+  -- Textsubjects - DISABLED: incompatible with new nvim-treesitter API
+  -- TODO: Re-enable when nvim-treesitter-textsubjects is updated
+  {
+    "RRethy/nvim-treesitter-textsubjects",
+    enabled = false,
   },
 
-  textobjects = {
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]]"] = "@function.outer",
-        ["]m"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]["] = "@function.outer",
-        ["]M"] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[["] = "@function.outer",
-        ["[m"] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[]"] = "@function.outer",
-        ["[M"] = "@class.outer",
-      },
-    },
-    select = {
-      enable = true,
-
-      -- Automatically jump forward to textobj, similar to targets.vim
-      lookahead = true,
-
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ["~"] = "@parameter.inner",
-      },
-    },
+  {
+    "windwp/nvim-ts-autotag",
+    event = "BufReadPre",
+    config = function()
+      require('nvim-ts-autotag').setup({
+        opts = {
+          enable_close = false,          
+          enable_rename = true,          
+          enable_close_on_slash = true   
+        },
+      })
+    end
   },
 
-  textsubjects = {
-    enable = true,
-    keymaps = {
-      ['<cr>'] = 'textsubjects-smart', -- works in visual mode
-    }
+  {
+    "wurli/contextindent.nvim",
+    event = "BufReadPre",
+    opts = { pattern = "*" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
-
 }
+

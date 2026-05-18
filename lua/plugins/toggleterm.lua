@@ -1,68 +1,142 @@
-require("toggleterm").setup {
-  -- size can be a number or function which is passed the current terminal
-  size = function(term)
-    if term.direction == "horizontal" then
-      return 15
-    elseif term.direction == "vertical" then
-      return vim.o.columns * 0.4
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    event = "BufReadPre",
+    config = function()
+      require 'nvim-treesitter.configs'.setup {
+        ensure_installed = {
+          "tsx",
+          "typescript",
+          "javascript",
+          "html",
+          "css",
+          "vue",
+          "astro",
+          "svelte",
+          "gitcommit",
+          "graphql",
+          "json",
+          "json5",
+          "lua",
+          "markdown",
+          "prisma",
+          "vim",
+          "dap_repl",
+        },                              -- one of "all", or a list of languages
+        sync_install = false,           -- install languages synchronously (only applied to `ensure_installed`)
+        ignore_install = { "haskell" }, -- list of parsers to ignore installing
+        highlight = {
+          enable = true,
+        },
+
+        incremental_selection = {
+          enable = false,
+          keymaps = {
+            init_selection    = "<leader>gnn",
+            node_incremental  = "<leader>gnr",
+            scope_incremental = "<leader>gne",
+            node_decremental  = "<leader>gnt",
+          },
+        },
+
+        indent = {
+          enable = true
+        },
+
+        textobjects = {
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              ["]]"] = "@jsx.element",
+              ["]f"] = "@function.outer",
+              ["]m"] = "@class.outer",
+            },
+            goto_next_end = {
+              ["]F"] = "@function.outer",
+              ["]M"] = "@class.outer",
+            },
+            goto_previous_start = {
+              ["[["] = "@jsx.element",
+              ["[f"] = "@function.outer",
+              ["[m"] = "@class.outer",
+            },
+            goto_previous_end = {
+              ["[F"] = "@function.outer",
+              ["[M"] = "@class.outer",
+            },
+          },
+          select = {
+            enable = true,
+
+            -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true,
+
+            keymaps = {
+              -- You can use the capture groups defined in textobjects.scm
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+            },
+          },
+          swap = {
+            enable = true,
+            swap_next = {
+              ["~"] = "@parameter.inner",
+            },
+          },
+        },
+
+        textsubjects = {
+          enable = true,
+          prev_selection = '<BS>',
+          keymaps = {
+            ['<CR>'] = 'textsubjects-smart', -- works in visual mode
+          }
+        },
+
+      }
+    end,
+    dependencies = {
+      "hiphish/rainbow-delimiters.nvim",
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      -- CRITICAL FIX: textobjects and textsubjects REMOVED from here
+    },
+  },
+
+  -- MOVED: Loaded independently to depend ON treesitter
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    event = "BufReadPre",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
+
+  -- MOVED: Loaded independently to depend ON treesitter
+  {
+    "RRethy/nvim-treesitter-textsubjects",
+    event = "BufReadPre",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
+
+  {
+    "windwp/nvim-ts-autotag",
+    event = "BufReadPre",
+    config = function()
+      require('nvim-ts-autotag').setup({
+        opts = {
+          enable_close = false,          -- Auto close tags
+          enable_rename = true,          -- Auto rename pairs of tags
+          enable_close_on_slash = true   -- Auto close on trailing </
+        },
+      })
     end
-  end,
-  open_mapping = [[<F12>]],
-  ---@diagnostic disable-next-line: unused-local
-  on_open = function(term)
-    require('shade').toggle();
-  end,
-  ---@diagnostic disable-next-line: unused-local
-  on_close = function(term)
-    require('shade').toggle();
-  end,
-  highlights = {
-    -- highlights which map to a highlight group name and a table of it's values
-    -- NOTE: this is only a subset of values, any group placed here will be set for the terminal window split
-    Normal = {
-      link = 'Normal'
-    },
-    NormalFloat = {
-      link = 'Normal'
-    },
-    FloatBorder = {
-      -- guifg = <VALUE-HERE>,
-      -- guibg = <VALUE-HERE>,
-      link = 'FloatBorder'
-    },
   },
-  shade_filetypes = {},
-  shade_terminals = false,
-  shading_factor = 1, -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
-  start_in_insert = true,
-  insert_mappings = true, -- whether or not the open mapping applies in insert mode
-  persist_size = true,
-  direction = 'horizontal', -- | 'horizontal' | 'window' | 'float',
-  close_on_exit = true, -- close the terminal window when the process exits
-  shell = vim.o.shell, -- change the default shell
-  -- This field is only relevant if direction is set to 'float'
-  float_opts = {
-    -- The border key is *almost* the same as 'nvim_win_open'
-    -- see :h nvim_win_open for details on borders however
-    -- the 'curved' border is a custom border type
-    -- not natively supported but implemented in this plugin.
-    border = 'curved', -- single/double/shadow/curved
-    width = math.floor(0.7 * vim.fn.winwidth(0)),
-    height = math.floor(0.8 * vim.fn.winheight(0)),
-    winblend = 4,
-  },
-  winbar = {
-    enabled = true,
+
+  {
+    "wurli/contextindent.nvim",
+    event = "BufReadPre", 
+    opts = { pattern = "*" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
 }
-
-function _G.set_terminal_keymaps()
-  local opts = { noremap = true }
-  vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
-end
-
-vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')

@@ -8,17 +8,6 @@ local silent = { silent = true }
 local utils = require('utils')
 
 -- ╭──────────────────────────────────────────────────────────╮
--- │ Setup                                                    │
--- ╰──────────────────────────────────────────────────────────╯
-worktree.setup({
-    change_directory_command = "cd",  -- default: "cd",
-    update_on_change = true,          -- default: true,
-    update_on_change_command = "e .", -- default: "e .",
-    clearjumps_on_change = true,      -- default: true,
-    autopush = false,                 -- default: false,
-})
-
--- ╭──────────────────────────────────────────────────────────╮
 -- │ Keymappings                                              │
 -- ╰──────────────────────────────────────────────────────────╯
 -- <Enter> - switches to that worktree
@@ -55,7 +44,7 @@ keymap("n", "<Leader>gwc", "<CMD>lua require('telescope').extensions.git_worktre
 worktree.on_tree_change(function(op, metadata)
   if op == worktree.Operations.Switch then
     utils.log("Switched from " .. metadata.prev_path .. " to " .. metadata.path, "Git Worktree")
-    utils.closeOtherBuffers()
+    Snacks.bufdelete.other()
     vim.cmd ('e')
   end
 end)
