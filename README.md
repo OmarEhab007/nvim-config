@@ -10,6 +10,9 @@ important files, installed tools, and the keymaps used to trigger the main workf
 
 ## Requirements
 
+<details>
+<summary><strong>Required and optional tools</strong></summary>
+
 Install these tools before using the config.
 
 | Tool | Why it is used |
@@ -31,6 +34,8 @@ Optional but recommended:
 | Docker | Project-specific development environments |
 | `prettier`, `eslint`, `stylua`, `goimports`, etc. | Project formatters and linters used through Conform and nvim-lint |
 
+</details>
+
 ## Installation
 
 Clone the repo into your Neovim config directory.
@@ -50,6 +55,9 @@ git clone https://github.com/OmarEhab007/nvim-config ~/.config/nvim
 ```
 
 ## Updating
+
+<details>
+<summary><strong>Plugin updates and config sync workflow</strong></summary>
 
 Update plugins from inside Neovim:
 
@@ -75,7 +83,12 @@ sync-nvim-config
 That copies the current live config into the repo, preserves `.git` and `.gitignore`, and
 then shows `git status`.
 
+</details>
+
 ## Project Layout
+
+<details>
+<summary><strong>Configuration file map</strong></summary>
 
 | Path | Purpose |
 | --- | --- |
@@ -89,7 +102,12 @@ then shows `git status`.
 | `lua/plugins/which-key/setup.lua` | Which-key groups and many feature keymaps |
 | `lazy-lock.json` | Locked plugin versions |
 
+</details>
+
 ## Leader Keys
+
+<details>
+<summary><strong>Key notation guide</strong></summary>
 
 | Key | Meaning |
 | --- | --- |
@@ -101,9 +119,12 @@ then shows `git status`.
 
 Most commands are discoverable with which-key: press `<leader>` and pause.
 
+</details>
+
 ## Main Plugins And Tools
 
-### Core UI
+<details>
+<summary><strong>Core UI plugins and tools</strong></summary>
 
 | Plugin/tool | Purpose |
 | --- | --- |
@@ -118,7 +139,10 @@ Most commands are discoverable with which-key: press `<leader>` and pause.
 | `luukvbaal/statuscol.nvim` | Status column |
 | `kevinhwang91/nvim-ufo` | Folding UI |
 
-### Navigation And Editing
+</details>
+
+<details>
+<summary><strong>Navigation and editing plugins</strong></summary>
 
 | Plugin/tool | Purpose |
 | --- | --- |
@@ -134,7 +158,10 @@ Most commands are discoverable with which-key: press `<leader>` and pause.
 | `johmsalas/text-case.nvim` | Text case conversion |
 | `andymass/vim-matchup` | Matching pairs and tags |
 
-### LSP, Completion, Formatting, Linting
+</details>
+
+<details>
+<summary><strong>LSP, completion, formatting, and linting tools</strong></summary>
 
 | Plugin/tool | Purpose |
 | --- | --- |
@@ -147,7 +174,10 @@ Most commands are discoverable with which-key: press `<leader>` and pause.
 | `folke/trouble.nvim` | Diagnostics and references UI when enabled |
 | `nvim-treesitter/nvim-treesitter` | Syntax tree parsing |
 
-### Git And GitHub
+</details>
+
+<details>
+<summary><strong>Git and GitHub tools</strong></summary>
 
 | Plugin/tool | Purpose |
 | --- | --- |
@@ -158,7 +188,10 @@ Most commands are discoverable with which-key: press `<leader>` and pause.
 | `pwntester/octo.nvim` | GitHub issues and pull requests |
 | `lazygit` | Terminal Git UI |
 
-### Frontend, TypeScript, Markdown
+</details>
+
+<details>
+<summary><strong>Frontend, TypeScript, and Markdown tools</strong></summary>
 
 | Plugin/tool | Purpose |
 | --- | --- |
@@ -169,7 +202,10 @@ Most commands are discoverable with which-key: press `<leader>` and pause.
 | `nvim-neotest/neotest` | Test runner framework |
 | Jest adapter | JavaScript/TypeScript tests |
 
-### Debugging And AI
+</details>
+
+<details>
+<summary><strong>Debugging and AI tools</strong></summary>
 
 | Plugin/tool | Purpose |
 | --- | --- |
@@ -179,9 +215,12 @@ Most commands are discoverable with which-key: press `<leader>` and pause.
 | `CopilotC-Nvim/CopilotChat.nvim` | Copilot chat actions |
 | `olimorris/codecompanion.nvim` | CodeCompanion chat and inline actions |
 
+</details>
+
 ## Daily Workflow
 
-### Open A Project
+<details>
+<summary><strong>Open a project workflow</strong></summary>
 
 Start Neovim from the project root:
 
@@ -202,7 +241,10 @@ Use the dashboard, picker, or explorer to enter the project:
 
 Hidden files and gitignored files are enabled in the Snacks picker and explorer by default.
 
-### Edit Code
+</details>
+
+<details>
+<summary><strong>Edit code workflow</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -214,7 +256,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader>cf` | LSP format current buffer or visual range |
 | `<leader>ct` | Toggle format-on-save |
 
-### Search And Navigate
+</details>
+
+<details>
+<summary><strong>Search and navigation workflow</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -230,7 +275,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader>sc` | Colorscheme picker |
 | `<leader>sd` | Dotfiles picker |
 
-### Git
+</details>
+
+<details>
+<summary><strong>Git workflow</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -245,9 +293,12 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader>gi` | List GitHub issues |
 | `<leader>gp` | List GitHub pull requests |
 
+</details>
+
 ## Keymap Reference
 
-### General Editing
+<details>
+<summary><strong>General editing keymaps</strong></summary>
 
 | Mode | Trigger | Action |
 | --- | --- | --- |
@@ -268,7 +319,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | Normal/Visual | `X` | Delete without yanking |
 | Visual | `p` | Paste without yanking replaced text |
 
-### Windows And Splits
+</details>
+
+<details>
+<summary><strong>Window and split keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -290,7 +344,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader><leader>k` | Swap buffer up |
 | `<leader><leader>l` | Swap buffer right |
 
-### Buffers
+</details>
+
+<details>
+<summary><strong>Buffer keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -311,7 +368,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader>bse` | Sort buffers by extension |
 | `<leader>bsr` | Sort buffers by relative directory |
 
-### Explorer And Pickers
+</details>
+
+<details>
+<summary><strong>Explorer and picker keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -332,7 +392,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | Explorer: `I` | Toggle ignored files |
 | Explorer: `<C-]>` | Change explorer root to selected directory |
 
-### Quickfix
+</details>
+
+<details>
+<summary><strong>Quickfix keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -341,7 +404,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader>q` | Toggle quickfix list |
 | `<leader>sq` | Open quickfix picker |
 
-### LSP And Diagnostics
+</details>
+
+<details>
+<summary><strong>LSP and diagnostics keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -361,7 +427,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader>cR` | Restart LSP |
 | `<leader>ct` | Toggle format-on-save |
 
-### Git Hunks
+</details>
+
+<details>
+<summary><strong>Git hunk keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -378,7 +447,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader>ght` | Toggle deleted lines |
 | `ih` | Select hunk text object |
 
-### Git Conflicts And Worktrees
+</details>
+
+<details>
+<summary><strong>Git conflict and worktree keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -390,7 +462,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader>gww` | List worktrees |
 | `<leader>gwc` | Create worktree |
 
-### Harpoon
+</details>
+
+<details>
+<summary><strong>Harpoon keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -403,7 +478,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 | `<leader>[` | Previous Harpoon item |
 | `<leader>]` | Next Harpoon item |
 
-### Motions And Text Objects
+</details>
+
+<details>
+<summary><strong>Motion and text object keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -423,7 +501,10 @@ Hidden files and gitignored files are enabled in the Snacks picker and explorer 
 Mini.ai also adds enhanced text objects such as quotes, brackets, functions, arguments,
 and surrounding syntax-aware selections.
 
-### Refactoring
+</details>
+
+<details>
+<summary><strong>Refactoring keymaps</strong></summary>
 
 | Mode | Trigger | Action |
 | --- | --- | --- |
@@ -435,7 +516,10 @@ and surrounding syntax-aware selections.
 | Normal | `<leader>rb` | Extract block |
 | Normal | `<leader>rf` | Extract block to file |
 
-### TypeScript And Tailwind
+</details>
+
+<details>
+<summary><strong>TypeScript and Tailwind keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -448,7 +532,10 @@ and surrounding syntax-aware selections.
 | `<leader>cv` | Show Tailwind CSS values |
 | `<leader>cS` | Toggle Tailwind class sorting on save |
 
-### NPM Package Buffers
+</details>
+
+<details>
+<summary><strong>NPM package buffer keymaps</strong></summary>
 
 These mappings apply in package management buffers.
 
@@ -462,7 +549,10 @@ These mappings apply in package management buffers.
 | `<leader>ns` | Show package info |
 | `<leader>nu` | Update package |
 
-### Tests
+</details>
+
+<details>
+<summary><strong>Test keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -473,7 +563,10 @@ These mappings apply in package management buffers.
 | `<leader>jo` | Open test output |
 | `<leader>js` | Stop running test |
 
-### Debugging
+</details>
+
+<details>
+<summary><strong>Debugging keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -492,7 +585,10 @@ These mappings apply in package management buffers.
 | `<leader>ds` | Open scopes |
 | `<leader>dr` | Open REPL |
 
-### Snippets
+</details>
+
+<details>
+<summary><strong>Snippet keymaps</strong></summary>
 
 | Mode | Trigger | Action |
 | --- | --- | --- |
@@ -500,13 +596,19 @@ These mappings apply in package management buffers.
 | Visual | `<leader>asa` | Add snippet from selection |
 | Normal | `<leader>ase` | Edit snippet |
 
-### Markdown
+</details>
+
+<details>
+<summary><strong>Markdown keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
 | `<leader>am` | Toggle Markdown preview |
 
-### AI
+</details>
+
+<details>
+<summary><strong>AI keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -523,7 +625,10 @@ These mappings apply in package management buffers.
 Note: `<leader>ccc` is currently configured by both CodeCompanion and Copilot Chat. The
 effective command depends on plugin load order.
 
-### LeerVim And UI Actions
+</details>
+
+<details>
+<summary><strong>LeerVim and UI action keymaps</strong></summary>
 
 | Trigger | Action |
 | --- | --- |
@@ -537,7 +642,12 @@ effective command depends on plugin load order.
 | `<leader>z` | Toggle Zen mode |
 | `<leader>Z` | Toggle Zoom mode |
 
+</details>
+
 ## Common Commands
+
+<details>
+<summary><strong>Useful Neovim commands</strong></summary>
 
 | Command | Purpose |
 | --- | --- |
@@ -549,7 +659,12 @@ effective command depends on plugin load order.
 | `:LspInfo` | Inspect active language servers |
 | `:Telescope` | Open Telescope commands if needed |
 
+</details>
+
 ## Customization
+
+<details>
+<summary><strong>Files to edit when customizing LeerVim</strong></summary>
 
 Start with these files:
 
@@ -576,7 +691,12 @@ After changing language tools, run:
 :Mason
 ```
 
+</details>
+
 ## Troubleshooting
+
+<details>
+<summary><strong>Common problems and fixes</strong></summary>
 
 | Problem | Fix |
 | --- | --- |
@@ -587,6 +707,8 @@ After changing language tools, run:
 | Icons look broken | Use a Nerd Font in the terminal |
 | GitHub PRs/issues do not load | Install and authenticate `gh` |
 | Hidden or ignored files are missing | In Snacks explorer press `H` for hidden files or `I` for ignored files |
+
+</details>
 
 ## Maintenance Checklist
 
