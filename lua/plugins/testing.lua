@@ -41,7 +41,7 @@ return {
           enabled = false
         },
         floating = {
-          border = EcoVim.ui.float.border or "rounded",
+          border = LeerVim.ui.float.border or "rounded",
           max_height = 0.6,
           max_width = 0.6
         },

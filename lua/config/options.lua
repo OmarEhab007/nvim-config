@@ -77,7 +77,7 @@ end
 
 if vim.g.neovide then
   vim.opt.title = true
-  vim.opt.guifont = EcoVim.ui.font
+  vim.opt.guifont = LeerVim.ui.font
   vim.g.neovide_scale_factor = 1.1
   vim.g.neovide_refresh_rate = 144
   vim.g.neovide_underline_stroke_scale = 0.5

@@ -5,22 +5,22 @@ local async_present, async = pcall(require, "plenary.async")
 -- Exported functions
 local M = {}
 
-M.first_ecovim_run = function()
-  local is_first_run = utils.file_exists('/tmp/first-ecovim-run')
+M.first_leervim_run = function()
+  local is_first_run = utils.file_exists('/tmp/first-leervim-run')
 
   if is_first_run then
     async.run(function()
-      vim.notify("Welcome to Ecovim! Hope you'll have a nice experience!", "info",
-        { title = "Ecovim", timeout = 5000 })
+      vim.notify("Welcome to LeerVim! Hope you'll have a nice experience!", "info",
+        { title = "LeerVim", timeout = 5000 })
       vim.notify("Please install treesitter servers manually by :TSInstall command.", "info",
         { title = "Installation", timeout = 10000 })
     end)
-    local suc = os.remove('/tmp/first-ecovim-run')
-    if (not suc) then print("Error: Couldn't remove /tmp/first-ecovim-run!") end
+    local suc = os.remove('/tmp/first-leervim-run')
+    if (not suc) then print("Error: Couldn't remove /tmp/first-leervim-run!") end
   end
 end
 
-M.first_ecovim_run()
+M.first_leervim_run()
 
 local present, win = pcall(require, "lspconfig.ui.windows")
 if not present then
@@ -30,7 +30,7 @@ end
 local _default_opts = win.default_opts
 win.default_opts = function(options)
   local opts = _default_opts(options)
-  opts.border = EcoVim.ui.float.border
+  opts.border = LeerVim.ui.float.border
   return opts
 end
 

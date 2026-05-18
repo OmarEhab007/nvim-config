@@ -1,6 +1,6 @@
 require('config.compat')
 
-require('config.EcoVim')
+require('config.LeerVim')
 
 require('utils.globals')
 require('utils.functions')

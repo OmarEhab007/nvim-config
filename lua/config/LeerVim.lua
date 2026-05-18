@@ -1,14 +1,14 @@
 ------------------------------------------------
 --                                            --
 --    This is a main configuration file for    --
---                    EcoVim                  --
+--                    LeerVim                  --
 --      Change variables which you need to    --
 --                                            --
 ------------------------------------------------
 
 local icons = require("utils.icons")
 
-EcoVim = {
+LeerVim = {
   colorscheme = "tokyonight-night",
   ui = {
     font = { "FiraCode Nerd Font", ":h14" },

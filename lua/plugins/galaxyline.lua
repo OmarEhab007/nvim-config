@@ -68,7 +68,7 @@ return {
       local gls = gl.section
 
       local bgcolor = function()
-        if EcoVim.colorscheme == 'nightfly' then
+        if LeerVim.colorscheme == 'nightfly' then
           return '#011627'
         else
           return nil;
@@ -362,7 +362,7 @@ return {
       table.insert(gls.left, {
         DiagnosticError = {
           provider = 'DiagnosticError',
-          icon = EcoVim.icons.errorOutline,
+          icon = LeerVim.icons.errorOutline,
           separator_highlight = { colors.gitbg, colors.bg },
           highlight = { colors.diagerror, colors.lspbg }
         }
@@ -377,14 +377,14 @@ return {
       table.insert(gls.left, {
         DiagnosticHint = {
           provider = 'DiagnosticHint',
-          icon = EcoVim.icons.lightbulbOutline,
+          icon = LeerVim.icons.lightbulbOutline,
           highlight = { colors.diaghint, colors.lspbg }
         }
       })
       table.insert(gls.left, {
         DiagnosticInfo = {
           provider = 'DiagnosticInfo',
-          icon = EcoVim.icons.infoOutline,
+          icon = LeerVim.icons.infoOutline,
           highlight = { colors.diaginfo, colors.lspbg }
         }
       })
@@ -450,7 +450,7 @@ return {
         }
       })
 
-      if EcoVim.statusline.path_enabled then
+      if LeerVim.statusline.path_enabled then
         table.insert(gls.right, {
           FileName = {
             provider = function()
@@ -458,7 +458,7 @@ return {
                 return ''
               end
 
-              if EcoVim.statusline.path == 'relative' then
+              if LeerVim.statusline.path == 'relative' then
                 local fname = vim.fn.expand('%:p')
                 return fname:gsub(vim.fn.getcwd() .. '/', '') .. ' '
               end

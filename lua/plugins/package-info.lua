@@ -1,4 +1,4 @@
-local icons = EcoVim.icons
+local icons = LeerVim.icons
 
 return {
   {

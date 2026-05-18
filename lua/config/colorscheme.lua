@@ -79,17 +79,17 @@ tokyonight.setup({
 })
 
 local highlights = {
-  -- Ecovim Colors
-  EcovimPrimary                 = { fg = "#488dff" },
-  EcovimSecondary               = { fg = "#FFA630" },
-  EcovimPrimaryBold             = { bold = true, fg = "#488DFF" },
-  EcovimSecondaryBold           = { bold = true, fg = "#FFA630" },
-  EcovimHeader                  = { bold = true, fg = "#488DFF" },
-  EcovimHeaderInfo              = { bold = true, fg = "#FFA630" },
-  EcovimFooter                  = { bold = true, fg = "#FFA630" },
-  EcovimNvimTreeTitle           = { bold = true, fg = "#FFA630", bg = "#16161e" },
+  -- LeerVim Colors
+  LeerVimPrimary                 = { fg = "#488dff" },
+  LeerVimSecondary               = { fg = "#FFA630" },
+  LeerVimPrimaryBold             = { bold = true, fg = "#488DFF" },
+  LeerVimSecondaryBold           = { bold = true, fg = "#FFA630" },
+  LeerVimHeader                  = { bold = true, fg = "#488DFF" },
+  LeerVimHeaderInfo              = { bold = true, fg = "#FFA630" },
+  LeerVimFooter                  = { bold = true, fg = "#FFA630" },
+  LeerVimNvimTreeTitle           = { bold = true, fg = "#FFA630", bg = "#16161e" },
   -- Lines
-  CursorLineNR                  = { link = "EcovimSecondary" },
+  CursorLineNR                  = { link = "LeerVimSecondary" },
   LineNr                        = { link = "Comment" },
   -- Floats/Windows
   -- FloatBorder                   = { bg = "None", fg = "#488DFF" },
@@ -111,7 +111,7 @@ local highlights = {
   TSRainbowRed                  = { fg = c.blue, ctermfg = 9 },
   RainbowDelimiterRed           = { fg = c.blue, ctermfg = 9 },
   Boolean                       = { fg = "#F7768E" },
-  BufferOffset                  = { link = "EcovimSecondary" },
+  BufferOffset                  = { link = "LeerVimSecondary" },
   LspInlayHint                  = { link = "LspCodeLens" },
   -- Bufferline
   BufferLineFill                = { bg = "#16161E", fg = "#565F89" },

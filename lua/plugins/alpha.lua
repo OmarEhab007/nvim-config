@@ -19,21 +19,18 @@ return {
       -- ╰──────────────────────────────────────────────────────────╯
 
       local header = {
-        " ████████                           ██            ",
-        "░██░░░░░                           ░░             ",
-        "░██        █████   ██████  ██    ██ ██ ██████████ ",
-        "░███████  ██░░░██ ██░░░░██░██   ░██░██░░██░░██░░██",
-        "░██░░░░  ░██  ░░ ░██   ░██░░██ ░██ ░██ ░██ ░██ ░██",
-        "░██      ░██   ██░██   ░██ ░░████  ░██ ░██ ░██ ░██",
-        "░████████░░█████ ░░██████   ░░██   ░██ ███ ░██ ░██",
-        "░░░░░░░░  ░░░░░   ░░░░░░     ░░    ░░ ░░░  ░░  ░░ ",
+        " _                    __     ___           ",
+        "| |    ___  ___ _ __  \\ \\   / (_)_ __ ___  ",
+        "| |   / _ \\/ _ \\ '__|  \\ \\ / /| | '_ ` _ \\ ",
+        "| |__|  __/  __/ |      \\ V / | | | | | | |",
+        "|_____\\___|\\___|_|       \\_/  |_|_| |_| |_|",
       }
 
       dashboard.section.header.type = "text";
       dashboard.section.header.val = header;
       dashboard.section.header.opts = {
         position = "center",
-        hl = "EcovimHeader",
+        hl = "LeerVimHeader",
       }
 
       -- ╭──────────────────────────────────────────────────────────╮
@@ -53,7 +50,7 @@ return {
         val = "┌────────────   Today is " .. date .. " ────────────┐",
         opts = {
           position = "center",
-          hl = "EcovimHeaderInfo"
+          hl = "LeerVimHeaderInfo"
         }
       }
 
@@ -62,7 +59,7 @@ return {
         val = "│                                                │",
         opts = {
           position = "center",
-          hl = "EcovimHeaderInfo"
+          hl = "LeerVimHeaderInfo"
         }
       }
 
@@ -71,7 +68,7 @@ return {
         val = "└───══───══───══───  " .. datetime .. "  ───══───══───══────┘",
         opts = {
           position = "center",
-          hl = "EcovimHeaderInfo"
+          hl = "LeerVimHeaderInfo"
         }
       }
 
@@ -95,7 +92,7 @@ return {
           cursor = 5,
           width = 50,
           align_shortcut = "right",
-          hl_shortcut = "EcovimPrimary",
+          hl_shortcut = "LeerVimPrimary",
         }
         if keybind then
           keybind_opts = if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
@@ -150,8 +147,9 @@ return {
       local function footer()
         local plugins = require("lazy").stats().count
         local v = vim.version()
-        local ecovim_version = line_from(config_dir .. "/.ecovim.version")
-        return string.format(" v%d.%d.%d  󰂖 %d   %s ", v.major, v.minor, v.patch, plugins, ecovim_version[1])
+        local leervim_version = line_from(config_dir .. "/.leervim.version")
+        return string.format(" v%d.%d.%d  󰂖 %d   %s ", v.major, v.minor, v.patch, plugins,
+          leervim_version[1] or "LeerVim")
       end
 
       dashboard.section.footer.val = {
@@ -159,7 +157,7 @@ return {
       }
       dashboard.section.footer.opts = {
         position = "center",
-        hl = "EcovimFooter",
+        hl = "LeerVimFooter",
       }
 
       local section = {

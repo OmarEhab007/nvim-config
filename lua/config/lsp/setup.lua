@@ -8,7 +8,7 @@ local lspconfig = require("lspconfig")
 -- 1. Setup Mason
 mason.setup({
   ui = {
-    border = EcoVim.ui.float.border or "rounded",
+    border = LeerVim.ui.float.border or "rounded",
   },
 })
 
@@ -24,9 +24,9 @@ end
 local handlers = {
   ["textDocument/hover"] = with(vim.lsp.handlers.hover, {
     silent = true,
-    border = EcoVim.ui.float.border,
+    border = LeerVim.ui.float.border,
   }),
-  ["textDocument/signatureHelp"] = with(vim.lsp.handlers.signature_help, { border = EcoVim.ui.float.border }),
+  ["textDocument/signatureHelp"] = with(vim.lsp.handlers.signature_help, { border = LeerVim.ui.float.border }),
 }
 
 local capabilities = require('blink.cmp').get_lsp_capabilities()
@@ -39,7 +39,7 @@ end
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts = opts or {}
-  opts.border = opts.border or EcoVim.ui.float.border or "rounded" -- default to EcoVim border
+  opts.border = opts.border or LeerVim.ui.float.border or "rounded" -- default to LeerVim border
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 

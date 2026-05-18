@@ -28,7 +28,7 @@ wk.setup {
     group = "+", -- symbol prepended to a group
   },
   win = {
-    border = EcoVim.ui.float.border or "rounded", -- none, single, double, shadow, rounded
+    border = LeerVim.ui.float.border or "rounded", -- none, single, double, shadow, rounded
     padding = { 2, 2, 2, 2 },                     -- extra window padding [top, right, bottom, left]
   },
   layout = {
@@ -64,7 +64,7 @@ wk.add({
 })
 
 wk.add({
-  { "<leader>/",  group = "Ecovim" },
+  { "<leader>/",  group = "LeerVim" },
   { "<leader>/s", group = "Session" },
   { "<leader>//", "<cmd>Alpha<CR>",       desc = "open dashboard" },
   { "<leader>/c", "<cmd>e $MYVIMRC<CR>",  desc = "open config" },

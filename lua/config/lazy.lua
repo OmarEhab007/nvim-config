@@ -29,7 +29,7 @@ require("lazy").setup("plugins", {
   },
   debug = false,
   ui = {
-    border = EcoVim.ui.float.border,
+    border = LeerVim.ui.float.border,
   }
 })
 

@@ -1,4 +1,4 @@
-# Ecovim: Frontend Neovim Config
+# LeerVim: Frontend Neovim Config
 
 [![Last commit](https://img.shields.io/github/last-commit/ecosse3/nvim?style=for-the-badge)](https://github.com/ecosse3/nvim/commits/master)
 ![Stars](https://img.shields.io/github/stars/ecosse3/nvim?style=for-the-badge)
@@ -86,7 +86,7 @@ Make sure to run `:TSInstall <lang>` for specific language you want to install.
 
 ## Configuration
 
-To change EcoVim related config use the `config/EcoVim.lua` file.
+To change LeerVim related config use the `config/LeerVim.lua` file.
 
 To change vim settings use the `config/options.lua` file.
 
@@ -94,7 +94,7 @@ To change plugin related settings use the specific `plugins/[name].lua` file. So
 
 ## Keybindings
 
-Currently I have no idea how to write for you my whole workflow of using Ecovim config in React.js projects I am working on,\
+Currently I have no idea how to write for you my whole workflow of using LeerVim config in React.js projects I am working on,\
 but I can write you the most useful custom key bindings by the frequency I use them.
 
 Space (SPC) is my Leader key.
@@ -256,7 +256,7 @@ Check out the which-key menu and [keymappings.lua](https://github.com/ecosse3/nv
 
 Measured on M1.
 
-Ecovim started in 91.13ms 
+LeerVim started in 91.13ms 
 
 ## Future Todo 
 

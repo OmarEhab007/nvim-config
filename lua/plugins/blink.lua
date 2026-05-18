@@ -101,7 +101,7 @@ return {
           show_on_x_blocked_trigger_characters = { "'", '"', '(', '{' },
         },
         menu = {
-          border = EcoVim.ui.float.border,
+          border = LeerVim.ui.float.border,
           draw = {
             columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
             treesitter = {},
@@ -115,7 +115,7 @@ return {
           auto_show_delay_ms = 500,
           treesitter_highlighting = true,
           window = {
-            border = EcoVim.ui.float.border,
+            border = LeerVim.ui.float.border,
           }
         },
         ghost_text = {
@@ -126,7 +126,7 @@ return {
       signature = {
         enabled = true,
         window = {
-          border = EcoVim.ui.float.border,
+          border = LeerVim.ui.float.border,
         }
       },
     },

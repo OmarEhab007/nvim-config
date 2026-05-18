@@ -29,7 +29,7 @@ return {
       { "<Leader>cv", "<CMD>TWValues<CR>", desc = "Tailwind CSS values" },
     },
     opts = {
-      border = EcoVim.ui.float.border or "rounded", -- Valid window border style,
+      border = LeerVim.ui.float.border or "rounded", -- Valid window border style,
       show_unknown_classes = true                   -- Shows the unknown classes popup
     }
   },

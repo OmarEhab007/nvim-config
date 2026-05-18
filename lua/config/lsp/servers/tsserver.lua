@@ -13,11 +13,11 @@ end
 local handlers = {
   ["textDocument/hover"] = with(vim.lsp.handlers.hover, {
     silent = true,
-    border = EcoVim.ui.float.border or "rounded",
+    border = LeerVim.ui.float.border or "rounded",
   }),
   ["textDocument/signatureHelp"] = with(
     vim.lsp.handlers.signature_help, {
-      border = EcoVim.ui.float.border or "rounded",
+      border = LeerVim.ui.float.border or "rounded",
     }
   ),
   ["textDocument/publishDiagnostics"] = with(
